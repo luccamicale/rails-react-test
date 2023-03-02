@@ -5,7 +5,7 @@ import { getGreetings } from "../redux/greetings/Greetings";
 function Greeting() {
   const greeting = useSelector((state) => state.greetings);
   const dispatch = useDispatch();
-
+  console.log(greeting)
   useEffect(() => {
     dispatch(getGreetings());
   }, [dispatch]);
