@@ -1,30 +1,19 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const GET_GREETINGS = 'RAILS-REACT-TEST/app/javascript/redux/greetings/getGreetings';
+const url = 'http://127.0.0.1:3000/api/v1/greetings/random';
 
-const initialState = [];
-
-const getGreetingsApi = 'http://127.0.0.1:3000/api/v1/greetings/random';
-
-// action creators to get greetings
-export const getGreetings = createAsyncThunk(
-    GET_GREETINGS, () => axios.get(getGreetingsApi).then((res) => {
-    const greetings = res.data.greeting;
-    return greetings;
-  }),
-);
+export const fetchGreetings = createAsyncThunk('FETCHMESSAGE', () => axios.get(url)
+  .then((response) => {
+    const { greeting } = response.data;
+    return greeting;
+  }));
 
 const greetingsSlice = createSlice({
   name: 'greetings',
-  initialState,
+  initialState: [],
   extraReducers: (builder) => {
-    builder.addCase(getGreetings.fulfilled, (_, action) => action.payload);
-    builder.addCase(getGreetings.rejected, (state) => {
-      const newState = state;
-      newState.status = 'failed';
-    });
-    builder.addCase(getGreetings.pending, (_, action) => action.payload);
+    builder.addCase(fetchGreetings.fulfilled, (_, action) => action.payload);
   },
 });
 
